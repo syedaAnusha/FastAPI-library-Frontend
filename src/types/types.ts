@@ -3,10 +3,14 @@ export interface Book {
   title: string;
   author: string;
   published_year: number;
+  category: string;
+  description: string;
+  coverImage: string;
 }
 
-export interface BookCreate {
-  title: string;
-  author: string;
-  published_year: number;
+export type BookCreate = Omit<Book, "id">;
+
+export interface CategoryResponse {
+  books: Book[];
+  total: number;
 }

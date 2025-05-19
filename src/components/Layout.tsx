@@ -1,18 +1,9 @@
 // components/Layout.tsx
 import { FC, memo, PropsWithChildren } from "react";
 
-interface LayoutProps {
-  title: string;
-}
-
-export const Layout: FC<PropsWithChildren<LayoutProps>> = memo(
-  ({ title, children }) => (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold mb-8">{title}</h1>
-      {children}
-    </div>
-  )
-);
+export const Layout: FC<PropsWithChildren> = memo(({ children }) => (
+  <div className="min-h-screen bg-gray-50 dark:bg-gray-900">{children}</div>
+));
 
 Layout.displayName = "Layout";
 

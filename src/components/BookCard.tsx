@@ -29,8 +29,24 @@ export const BookCard: FC<BookCardProps> = memo(
 
     return (
       <Card className="overflow-hidden hover:shadow-lg transition-shadow">
-        <div className={`h-32 bg-purple-600 flex items-center justify-center`}>
-          <h3 className="text-white text-xl font-bold px-4 text-center">
+        <div
+          className={`h-48 ${
+            !book.coverImage ? "bg-purple-600" : ""
+          } flex items-center justify-center relative`}
+        >
+          {book.coverImage ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={book.coverImage}
+              alt={`Cover of ${book.title}`}
+              className="w-full h-full object-cover"
+            />
+          ) : null}
+          <h3
+            className={`text-white text-xl font-bold px-4 text-center ${
+              book.coverImage ? "hidden" : ""
+            }`}
+          >
             {book.title}
           </h3>
         </div>

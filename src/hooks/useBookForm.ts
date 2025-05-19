@@ -5,7 +5,11 @@ import { api } from "../utils/api";
 interface UseBookFormProps {
   formData: BookCreate;
   error: string | null;
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleInputChange: (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => void;
   handleSubmit: (e: React.FormEvent) => Promise<void>;
   resetForm: () => void;
 }
@@ -15,20 +19,28 @@ export const useBookForm = (onBookCreated: () => void): UseBookFormProps => {
     title: "",
     author: "",
     published_year: new Date().getFullYear(),
+    category: "",
+    description: "",
+    coverImage: "",
   });
   const [error, setError] = useState<string | null>(null);
-
   const resetForm = useCallback(() => {
     setFormData({
       title: "",
       author: "",
       published_year: new Date().getFullYear(),
+      category: "",
+      description: "",
+      coverImage: "",
     });
     setError(null);
   }, []);
-
   const handleInputChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+    (
+      e: React.ChangeEvent<
+        HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+      >
+    ) => {
       const { name, value, type } = e.target;
       setFormData((prev) => ({
         ...prev,

@@ -1,3 +1,16 @@
+// Categories
+export const categories = [
+  "Fiction",
+  "Non-Fiction",
+  "Science Fiction",
+  "Fantasy",
+  "Biography",
+  "History",
+  "Self-Help",
+  "Business",
+  "Technology",
+  "Other",
+];
 export interface Book {
   id: number;
   title: string;

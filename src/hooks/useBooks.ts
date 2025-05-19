@@ -1,6 +1,13 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
+import { debounce } from "lodash";
 import { Book, BookCreate } from "../types/types";
 import { api } from "../utils/api";
+
+interface SearchParams {
+  title?: string;
+  author?: string;
+  year?: number;
+}
 
 interface UseBooksProps {
   books: Book[];
@@ -16,11 +23,7 @@ interface UseBooksProps {
     desc?: boolean
   ) => Promise<void>;
   filterByCategory: (category: string) => Promise<void>;
-  searchBooks: (params: {
-    title?: string;
-    author?: string;
-    year?: number;
-  }) => Promise<void>;
+  searchBooks: (params: SearchParams) => void; // Changed return type from Promise<void> to void
 }
 
 export const useBooks = (): UseBooksProps => {
@@ -128,12 +131,8 @@ export const useBooks = (): UseBooksProps => {
     []
   );
 
-  const searchBooks = useCallback(
-    async (params: {
-      title?: string;
-      author?: string;
-      year?: number;
-    }): Promise<void> => {
+  const performSearch = useCallback(
+    async (params: SearchParams): Promise<void> => {
       try {
         setIsLoading(true);
         const searchResults = await api.searchBooks(params);
@@ -148,6 +147,36 @@ export const useBooks = (): UseBooksProps => {
       }
     },
     []
+  );
+
+  // Create a memoized debounced search function that persists across renders
+  const debouncedSearch = useMemo(
+    () =>
+      debounce(
+        (params: SearchParams): void => {
+          performSearch(params).catch((e) => {
+            console.error("Error in debounced search:", e);
+            setError("Failed to search books");
+          });
+        },
+        300,
+        { leading: false, trailing: true }
+      ),
+    [performSearch]
+  );
+
+  // Cleanup the debounced function on unmount
+  useEffect(() => {
+    return () => {
+      debouncedSearch.cancel();
+    };
+  }, [debouncedSearch]);
+
+  const searchBooks = useCallback(
+    (params: SearchParams): void => {
+      debouncedSearch(params);
+    },
+    [debouncedSearch]
   );
 
   return {

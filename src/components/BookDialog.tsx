@@ -122,7 +122,26 @@ export function BookDialog({
                 placeholder="Enter book description"
                 rows={3}
                 className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              />{" "}
+            </div>
+
+            <div className="grid gap-2">
+              <label
+                htmlFor={`${mode}-coverImage`}
+                className="text-sm font-medium"
+              >
+                Cover Image URL
+              </label>
+              <Input
+                id={`${mode}-coverImage`}
+                name="coverImage"
+                type="url"
+                defaultValue={book?.coverImage}
+                placeholder="Enter cover image URL"
               />
+              <p className="text-xs text-gray-500">
+                Provide a direct link to the book cover image (optional)
+              </p>
             </div>
           </div>
 

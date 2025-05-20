@@ -7,20 +7,7 @@ import { BookDialog } from "@/components/BookDialog";
 import { DeleteDialog } from "@/components/DeleteDialog";
 import Layout from "../components/Layout";
 import { useLibrary } from "@/hooks/useLibrary";
-
-// Categories
-const categories = [
-  "Fiction",
-  "Non-Fiction",
-  "Science Fiction",
-  "Fantasy",
-  "Biography",
-  "History",
-  "Self-Help",
-  "Business",
-  "Technology",
-  "Other",
-];
+import { categories } from "@/types/types";
 
 export default function Home() {
   const {

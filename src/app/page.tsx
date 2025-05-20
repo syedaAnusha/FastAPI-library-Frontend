@@ -49,7 +49,6 @@ export default function Home() {
     handleCreateBook,
     handleUpdateBook,
     handleDeleteBook,
-    handleConfirmDelete,
   } = useLibrary();
   if (error) {
     return <div className="text-center text-red-600 mt-8">{error}</div>;
@@ -81,7 +80,7 @@ export default function Home() {
                 key={book.id}
                 book={book}
                 onEdit={handleEditBook}
-                onDelete={handleConfirmDelete}
+                onDelete={handleDeleteBook}
               />
             ))}
           </div>

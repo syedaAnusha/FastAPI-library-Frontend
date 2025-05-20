@@ -1,71 +1,14 @@
-import { useState, useCallback, useEffect } from "react";
-import { Book, BookCreate } from "../types/types";
-import { useBooks } from "./useBooks";
+import { useEffect } from "react";
+import { BookCreate } from "../types/types";
+import { useBookStore } from "../store/useBookStore";
 
 export const useLibrary = () => {
-  const {
-    books,
-    isLoading,
-    error,
-    totalBooks,
-    loadBooks,
-    deleteBook,
-    createBook,
-    updateBook,
-    sortBooks,
-    filterByCategory,
-    searchBooks,
-  } = useBooks();
-
-  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const [selectedBook, setSelectedBook] = useState<Book | null>(null);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentCategory, setCurrentCategory] = useState("All");
-  const [currentSort, setCurrentSort] = useState<{
-    field: "title" | "author" | "year";
-    desc: boolean;
-  }>({ field: "title", desc: false });
-
+  const store = useBookStore();
+  const loadBooks = store.loadBooks;
   useEffect(() => {
     loadBooks();
   }, [loadBooks]);
 
-  const handleSearch = useCallback(
-    (value: string) => {
-      setSearchTerm(value);
-      if (value) {
-        searchBooks({ title: value });
-      } else {
-        loadBooks();
-      }
-    },
-    [searchBooks, loadBooks]
-  );
-
-  const handleCategoryChange = useCallback(
-    (category: string) => {
-      setCurrentCategory(category);
-      if (category === "All") {
-        loadBooks();
-      } else {
-        filterByCategory(category);
-      }
-    },
-    [filterByCategory, loadBooks]
-  );
-
-  const handleSort = useCallback(
-    (field: "title" | "author" | "year") => {
-      setCurrentSort((prev) => {
-        const desc = prev.field === field ? !prev.desc : false;
-        sortBooks(field, desc);
-        return { field, desc };
-      });
-    },
-    [sortBooks]
-  );
   const handleCreateBook = async (formData: FormData) => {
     const newBook: BookCreate = {
       title: formData.get("title") as string,
@@ -75,11 +18,11 @@ export const useLibrary = () => {
       description: formData.get("description") as string,
       cover_image: (formData.get("cover_image") as string) || "",
     };
-    await createBook(newBook);
-    setIsAddDialogOpen(false);
+    await store.createBook(newBook);
   };
+
   const handleUpdateBook = async (formData: FormData) => {
-    if (!selectedBook) return;
+    if (!store.selectedBook) return;
     const updatedBook: BookCreate = {
       title: formData.get("title") as string,
       author: formData.get("author") as string,
@@ -88,54 +31,41 @@ export const useLibrary = () => {
       description: formData.get("description") as string,
       cover_image: (formData.get("cover_image") as string) || "",
     };
-    await updateBook(selectedBook.id, updatedBook);
-    setIsEditDialogOpen(false);
+    await store.updateBook(store.selectedBook.id, updatedBook);
   };
+
   const handleDeleteBook = async () => {
-    if (!selectedBook) return;
-    await deleteBook(selectedBook.id);
-    setIsDeleteDialogOpen(false);
-  };
-
-  const handleAddBook = () => setIsAddDialogOpen(true);
-  const handleEditBook = (book: Book) => {
-    setSelectedBook(book);
-    setIsEditDialogOpen(true);
-  };
-
-  const handleConfirmDelete = async (id: number) => {
-    const bookToDelete = books.find((book) => book.id === id);
-    setSelectedBook(bookToDelete || null);
-    setIsDeleteDialogOpen(true);
+    if (!store.selectedBook) return;
+    await store.deleteBook(store.selectedBook.id);
   };
 
   return {
     // State
-    books,
-    isLoading,
-    error,
-    totalBooks,
-    searchTerm,
-    currentCategory,
-    currentSort,
-    selectedBook,
-    isAddDialogOpen,
-    isEditDialogOpen,
-    isDeleteDialogOpen,
+    books: store.books,
+    isLoading: store.isLoading,
+    error: store.error,
+    totalBooks: store.totalBooks,
+    searchTerm: store.searchTerm,
+    currentCategory: store.currentCategory,
+    currentSort: store.currentSort,
+    selectedBook: store.selectedBook,
+    isAddDialogOpen: store.isAddDialogOpen,
+    isEditDialogOpen: store.isEditDialogOpen,
+    isDeleteDialogOpen: store.isDeleteDialogOpen,
 
     // Actions
-    setIsAddDialogOpen,
-    setIsEditDialogOpen,
-    setIsDeleteDialogOpen,
-    handleSearch,
-    handleCategoryChange,
-    handleSort,
-    handleAddBook,
-    handleEditBook,
+    setIsAddDialogOpen: store.setIsAddDialogOpen,
+    setIsEditDialogOpen: store.setIsEditDialogOpen,
+    setIsDeleteDialogOpen: store.setIsDeleteDialogOpen,
+    handleSearch: store.handleSearch,
+    handleCategoryChange: store.handleCategoryChange,
+    handleSort: store.handleSort,
+    handleAddBook: store.handleAddBook,
+    handleEditBook: store.handleEditBook,
     handleCreateBook,
     handleUpdateBook,
     handleDeleteBook,
-    handleConfirmDelete,
-    deleteBook,
+    handleConfirmDelete: store.handleConfirmDelete,
+    deleteBook: store.deleteBook,
   };
 };

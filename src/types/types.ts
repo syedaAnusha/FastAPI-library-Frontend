@@ -27,3 +27,54 @@ export interface CategoryResponse {
   books: Book[];
   total: number;
 }
+
+export interface SearchParams {
+  title?: string;
+  author?: string;
+  year?: number;
+}
+
+export interface BookState {
+  books: Book[];
+  isLoading: boolean;
+  error: string | null;
+  totalBooks: number;
+  searchTerm: string;
+  currentCategory: string;
+  currentSort: {
+    field: "title" | "author" | "year";
+    desc: boolean;
+  };
+  selectedBook: Book | null;
+  isAddDialogOpen: boolean;
+  isEditDialogOpen: boolean;
+  isDeleteDialogOpen: boolean;
+
+  // Actions
+  setSearchTerm: (term: string) => void;
+  setCurrentCategory: (category: string) => void;
+  setSelectedBook: (book: Book | null) => void;
+  setIsAddDialogOpen: (isOpen: boolean) => void;
+  setIsEditDialogOpen: (isOpen: boolean) => void;
+  setIsDeleteDialogOpen: (isOpen: boolean) => void;
+
+  // Async Actions
+  loadBooks: () => Promise<void>;
+  deleteBook: (id: number) => Promise<void>;
+  createBook: (book: BookCreate) => Promise<void>;
+  updateBook: (id: number, book: BookCreate) => Promise<void>;
+  sortBooks: (
+    sortBy: "year" | "author" | "title",
+    desc?: boolean
+  ) => Promise<void>;
+  filterByCategory: (category: string) => Promise<void>;
+  searchBooks: (params: SearchParams) => void;
+
+  // UI Actions
+  handleSearch: (value: string) => void;
+  handleCategoryChange: (category: string) => void;
+  handleSort: (field: "title" | "author" | "year") => void;
+  handleAddBook: () => void;
+  handleEditBook: (book: Book) => void;
+  handleConfirmDelete: (id: number) => void;
+}

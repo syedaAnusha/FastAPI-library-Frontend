@@ -92,7 +92,6 @@ export const useLibrary = () => {
     await updateBook(selectedBook.id, updatedBook);
     setIsEditDialogOpen(false);
   };
-
   const handleDeleteBook = async () => {
     if (!selectedBook) return;
     await deleteBook(selectedBook.id);
@@ -103,6 +102,12 @@ export const useLibrary = () => {
   const handleEditBook = (book: Book) => {
     setSelectedBook(book);
     setIsEditDialogOpen(true);
+  };
+
+  const handleConfirmDelete = async (id: number) => {
+    const bookToDelete = books.find((book) => book.id === id);
+    setSelectedBook(bookToDelete || null);
+    setIsDeleteDialogOpen(true);
   };
 
   return {
@@ -131,6 +136,7 @@ export const useLibrary = () => {
     handleCreateBook,
     handleUpdateBook,
     handleDeleteBook,
+    handleConfirmDelete,
     deleteBook,
   };
 };

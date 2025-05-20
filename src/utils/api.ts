@@ -64,19 +64,12 @@ export const api = {
     if (!response.ok) throw new Error("Failed to fetch books by category");
     return response.json();
   },
-
-  async searchBooks(params: {
-    title?: string;
-    author?: string;
-    year?: number;
-  }): Promise<Book[]> {
-    const searchParams = new URLSearchParams();
-    if (params.title) searchParams.append("title", params.title);
-    if (params.author) searchParams.append("author", params.author);
-    if (params.year) searchParams.append("year", params.year.toString());
-
+  async searchBooks(params: { title?: string }): Promise<Book[]> {
+    if (!params.title) {
+      return [];
+    }
     const response = await fetch(
-      `${API_URL}/books/search/?${searchParams.toString()}`
+      `${API_URL}/books/search/${encodeURIComponent(params.title)}`
     );
     if (!response.ok) throw new Error("Failed to search books");
     return response.json();

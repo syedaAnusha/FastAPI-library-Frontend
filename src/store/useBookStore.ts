@@ -161,7 +161,7 @@ export const useBookStore = create<BookState>()((set, get) => ({
     const state = get();
     state.setSearchTerm(value);
     if (value) {
-      state.searchBooks({ title: value });
+      state.searchBooks({ title: value.trim() });
     } else {
       state.loadBooks();
     }

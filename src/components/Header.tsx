@@ -1,6 +1,6 @@
 import { Search, Plus, BookOpen } from "lucide-react";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { SearchInput } from "./SearchInput";
 
 interface LibraryHeaderProps {
   searchTerm: string;
@@ -25,13 +25,11 @@ export function Header({
           </div>
 
           <div className="flex-1 max-w-md relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-            <Input
-              type="text"
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />{" "}
+            <SearchInput
               placeholder="Search by title, author, or description..."
-              className="pl-10"
               value={searchTerm}
-              onChange={(e) => onSearch(e.target.value)}
+              onChange={onSearch}
             />
           </div>
 

@@ -6,6 +6,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useTransition } from "react";
 
 interface LibraryFiltersProps {
   currentCategory: string;
@@ -24,6 +25,7 @@ export function Filters({
   onSortChange,
   categories,
 }: LibraryFiltersProps) {
+  const [isPending, startTransition] = useTransition();
   return (
     <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
       <div className="flex flex-wrap gap-2">
@@ -35,15 +37,28 @@ export function Filters({
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuItem onClick={() => onCategoryChange("All")}>
+            {" "}
+            <DropdownMenuItem
+              onClick={() => {
+                startTransition(() => {
+                  onCategoryChange("All");
+                });
+              }}
+            >
               All
+              {isPending && currentCategory === "All" ? " ..." : ""}
             </DropdownMenuItem>
             {categories.map((category) => (
               <DropdownMenuItem
                 key={category}
-                onClick={() => onCategoryChange(category)}
+                onClick={() => {
+                  startTransition(() => {
+                    onCategoryChange(category);
+                  });
+                }}
               >
                 {category}
+                {isPending && category === currentCategory ? " ..." : ""}
               </DropdownMenuItem>
             ))}
           </DropdownMenuContent>
@@ -57,14 +72,36 @@ export function Filters({
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuItem onClick={() => onSortChange("title")}>
+            {" "}
+            <DropdownMenuItem
+              onClick={() => {
+                startTransition(() => {
+                  onSortChange("title");
+                });
+              }}
+            >
               Title
+              {isPending && currentSort.field === "title" ? " ..." : ""}
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => onSortChange("author")}>
+            <DropdownMenuItem
+              onClick={() => {
+                startTransition(() => {
+                  onSortChange("author");
+                });
+              }}
+            >
               Author
+              {isPending && currentSort.field === "author" ? " ..." : ""}
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => onSortChange("year")}>
+            <DropdownMenuItem
+              onClick={() => {
+                startTransition(() => {
+                  onSortChange("year");
+                });
+              }}
+            >
               Year
+              {isPending && currentSort.field === "year" ? " ..." : ""}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

@@ -134,7 +134,7 @@ export function BookDialog({
               </label>
               <Input
                 id={`${mode}-coverImage`}
-                name="coverImage"
+                name="cover_image"
                 type="url"
                 defaultValue={book?.cover_image}
                 placeholder="Enter cover image URL"

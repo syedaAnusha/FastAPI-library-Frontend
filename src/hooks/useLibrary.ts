@@ -73,7 +73,7 @@ export const useLibrary = () => {
       published_year: parseInt(formData.get("publishedYear") as string),
       category: formData.get("category") as string,
       description: formData.get("description") as string,
-      coverImage: (formData.get("coverImage") as string) || "",
+      cover_image: (formData.get("cover_image") as string) || "",
     };
     await createBook(newBook);
     setIsAddDialogOpen(false);
@@ -87,7 +87,7 @@ export const useLibrary = () => {
       published_year: parseInt(formData.get("publishedYear") as string),
       category: formData.get("category") as string,
       description: formData.get("description") as string,
-      coverImage: (formData.get("coverImage") as string) || "",
+      cover_image: (formData.get("cover_image") as string) || "",
     };
     await updateBook(selectedBook.id, updatedBook);
     setIsEditDialogOpen(false);

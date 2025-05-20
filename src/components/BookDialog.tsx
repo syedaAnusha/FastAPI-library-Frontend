@@ -136,7 +136,7 @@ export function BookDialog({
                 id={`${mode}-coverImage`}
                 name="coverImage"
                 type="url"
-                defaultValue={book?.coverImage}
+                defaultValue={book?.cover_image}
                 placeholder="Enter cover image URL"
               />
               <p className="text-xs text-gray-500">

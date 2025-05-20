@@ -21,7 +21,7 @@ export const useBookForm = (onBookCreated: () => void): UseBookFormProps => {
     published_year: new Date().getFullYear(),
     category: "",
     description: "",
-    coverImage: "",
+    cover_image: "",
   });
   const [error, setError] = useState<string | null>(null);
   const resetForm = useCallback(() => {
@@ -31,7 +31,7 @@ export const useBookForm = (onBookCreated: () => void): UseBookFormProps => {
       published_year: new Date().getFullYear(),
       category: "",
       description: "",
-      coverImage: "",
+      cover_image: "",
     });
     setError(null);
   }, []);

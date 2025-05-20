@@ -18,7 +18,7 @@ export interface Book {
   published_year: number;
   category: string;
   description: string;
-  coverImage: string;
+  cover_image: string;
 }
 
 export type BookCreate = Omit<Book, "id">;

@@ -70,7 +70,7 @@ export const useLibrary = () => {
     const newBook: BookCreate = {
       title: formData.get("title") as string,
       author: formData.get("author") as string,
-      published_year: parseInt(formData.get("publishedYear") as string),
+      published_year: parseInt(formData.get("published_year") as string),
       category: formData.get("category") as string,
       description: formData.get("description") as string,
       cover_image: (formData.get("cover_image") as string) || "",
@@ -78,13 +78,12 @@ export const useLibrary = () => {
     await createBook(newBook);
     setIsAddDialogOpen(false);
   };
-
   const handleUpdateBook = async (formData: FormData) => {
     if (!selectedBook) return;
     const updatedBook: BookCreate = {
       title: formData.get("title") as string,
       author: formData.get("author") as string,
-      published_year: parseInt(formData.get("publishedYear") as string),
+      published_year: parseInt(formData.get("published_year") as string),
       category: formData.get("category") as string,
       description: formData.get("description") as string,
       cover_image: (formData.get("cover_image") as string) || "",

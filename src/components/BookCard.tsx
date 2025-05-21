@@ -18,8 +18,12 @@ interface BookCardProps {
 
 export const BookCard: FC<BookCardProps> = memo(
   ({ book, onEdit, onDelete }) => {
-    const handleDelete = () => {
-      onDelete(book.id);
+    const handleDelete = async () => {
+      try {
+        await onDelete(book.id);
+      } catch (error) {
+        console.error("Error deleting book:", error);
+      }
     };
 
     return (

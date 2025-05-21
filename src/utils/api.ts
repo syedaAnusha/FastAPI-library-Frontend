@@ -39,7 +39,7 @@ export const api = {
   },
 
   async updateBook(id: number, book: BookCreate): Promise<Book> {
-    const response = await fetch(`${API_URL}/books/${id}/`, {
+    const response = await fetch(`${API_URL}/books/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -51,8 +51,11 @@ export const api = {
   },
 
   async deleteBook(id: number): Promise<void> {
-    const response = await fetch(`${API_URL}/books/${id}/`, {
+    const response = await fetch(`${API_URL}/books/${id}`, {
       method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
     if (!response.ok) throw new Error("Failed to delete book");
   },

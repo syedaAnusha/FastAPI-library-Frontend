@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { BookCreate } from "../types/types";
 import { useBookStore } from "../store/useBookStore";
+import { toast } from "sonner";
 
 export const useLibrary = () => {
   const store = useBookStore();
@@ -18,7 +19,12 @@ export const useLibrary = () => {
       description: formData.get("description") as string,
       cover_image: (formData.get("cover_image") as string) || "",
     };
-    await store.createBook(newBook);
+    try {
+      await store.createBook(newBook);
+      toast.success("Book created successfully!");
+    } catch {
+      toast.error("Failed to create book");
+    }
   };
 
   const handleUpdateBook = async (formData: FormData) => {
@@ -31,12 +37,26 @@ export const useLibrary = () => {
       description: formData.get("description") as string,
       cover_image: (formData.get("cover_image") as string) || "",
     };
-    await store.updateBook(store.selectedBook.id, updatedBook);
+    try {
+      await store.updateBook(store.selectedBook.id, updatedBook);
+      toast.success("Book updated successfully!");
+    } catch {
+      toast.error("Failed to update book");
+    }
   };
+  const handleDeleteBook = async (id?: number) => {
+    // If id is provided, use it directly (from BookCard delete button)
+    // Otherwise use selectedBook.id (from DeleteDialog confirm button)
+    const bookId = id || store.selectedBook?.id;
+    if (!bookId) return;
 
-  const handleDeleteBook = async () => {
-    if (!store.selectedBook) return;
-    await store.deleteBook(store.selectedBook.id);
+    try {
+      await store.deleteBook(bookId);
+      store.setIsDeleteDialogOpen(false);
+      toast.success("Book deleted successfully!");
+    } catch {
+      toast.error("Failed to delete book");
+    }
   };
 
   return {

@@ -133,7 +133,6 @@ export const useBookStore = create<BookState>()((set, get) => ({
       set({ error: "Failed to sort books", isLoading: false });
     }
   },
-
   filterByCategory: async (category) => {
     try {
       set({ isLoading: true });
@@ -142,11 +141,12 @@ export const useBookStore = create<BookState>()((set, get) => ({
       } else {
         const response = await api.getBooksByCategory(category);
         set({
-          books: response.books,
-          totalBooks: response.total,
+          books: response.books || [],
+          totalBooks: response.total || 0,
           error: null,
           isLoading: false,
           currentCategory: category,
+          currentPage: 1, // Reset to first page when changing category
         });
       }
     } catch (e) {

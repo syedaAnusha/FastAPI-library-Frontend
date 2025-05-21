@@ -1,8 +1,77 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Library Management System - Frontend
+
+A modern, responsive library management system built with Next.js and TypeScript, featuring a clean and intuitive user interface for managing books and their metadata.
+
+## Features
+
+- 📚 Comprehensive Book Management
+  - Add, edit, and delete books
+  - View book details including title, author, year, and description
+  - Upload and display book cover images
+  - Categorize books by genre
+- 🔍 Advanced Search & Filtering
+  - Search books by title
+  - Filter books by category
+  - Sort books by various fields (title, author, year)
+- 💫 Modern UI/UX
+  - Responsive design for all devices
+  - Dark mode support
+  - Animated transitions and feedback
+  - Loading states and error handling
+- 🛠 Technical Features
+  - Built with Next.js 14+ and TypeScript
+  - State management with Zustand
+  - Form validation with Zod
+  - Tailwind CSS for styling
+  - Radix UI primitives for accessible components
+
+## Tech Stack
+
+- **Framework**: Next.js 14+
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **State Management**: Zustand
+- **Components**:
+  - Radix UI primitives
+  - Custom UI components
+- **Form Validation**: Zod
+- **Icons**: Lucide Icons
+- **Fonts**: Geist Sans & Geist Mono
+
+## Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+- Node.js 18.17.0 or later
+- npm, yarn, or pnpm
 
 ## Getting Started
 
-First, run the development server:
+1. Clone the repository:
+
+```bash
+git clone <repository-url>
+cd FastAPI-library-Frontend
+```
+
+2. Install dependencies:
+
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+```
+
+3. Set up environment variables:
+   Create a `.env.local` file in the root directory and add:
+
+```env
+NEXT_PUBLIC_API_URL=<your-backend-api-url>
+```
+
+4. Run the development server:
 
 ```bash
 npm run dev
@@ -10,27 +79,73 @@ npm run dev
 yarn dev
 # or
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the application.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+src/
+├── app/               # Next.js app router files
+├── components/        # React components
+│   ├── ui/           # Reusable UI components
+│   └── ...           # Feature-specific components
+├── hooks/            # Custom React hooks
+├── lib/              # Utility functions
+├── schemas/          # Zod validation schemas
+├── store/            # Zustand store definitions
+├── types/            # TypeScript type definitions
+└── utils/            # Helper functions and API client
+```
+
+## Key Components
+
+- **BookCard**: Displays individual book information
+- **BookDialog**: Handles adding and editing books
+- **DeleteDialog**: Confirmation dialog for book deletion
+- **Filters**: Category and sorting controls
+- **Header**: App header with search and add book button
+- **Layout**: Main layout wrapper
+
+## State Management
+
+The application uses Zustand for state management with the following main features:
+
+- Book list management
+- Search and filter state
+- Dialog states
+- Loading and error states
+
+## API Integration
+
+The frontend communicates with a FastAPI backend through a RESTful API. The main endpoints include:
+
+- GET /books/ - Fetch all books
+- POST /books/ - Create a new book
+- PUT /books/{id}/ - Update a book
+- DELETE /books/{id}/ - Delete a book
+- GET /books/search/{query} - Search books
+- GET /books/category/{category} - Filter books by category
+- GET /books/sort/{field} - Sort books by field
+
+## Contributing
+
+1. Fork the repository
+2. Create a new branch for your feature
+3. Make your changes
+4. Submit a pull request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+To learn more about the technologies used in this project:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [Next.js Documentation](https://nextjs.org/docs)
+- [TypeScript Documentation](https://www.typescriptlang.org/docs/)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+- [Zustand Documentation](https://docs.pmnd.rs/zustand/getting-started/introduction)
+- [Radix UI Documentation](https://www.radix-ui.com/docs/primitives)

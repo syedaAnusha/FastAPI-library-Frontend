@@ -7,6 +7,11 @@ export const categories = [
   "Biography",
   "History",
   "Self-Help",
+  "Adventure",
+  "Mystery",
+  "Romance",
+  "Thriller",
+  "Horror",
   "Business",
   "Technology",
   "Other",
@@ -32,6 +37,11 @@ export interface SearchParams {
   title?: string;
   author?: string;
   year?: number;
+}
+
+export interface PaginatedBooks {
+  books: Book[];
+  total: number;
 }
 
 export interface BookState {

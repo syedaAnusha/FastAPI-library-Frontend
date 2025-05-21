@@ -54,8 +54,8 @@ export const useBookStore = create<BookState>()((set, get) => ({
       set({ isLoading: true });
       const data = await api.getAllBooks();
       set({
-        books: data,
-        totalBooks: data.length,
+        books: data.books,
+        totalBooks: data.total,
         error: null,
         isLoading: false,
       });

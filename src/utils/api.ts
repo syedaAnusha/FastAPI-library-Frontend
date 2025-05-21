@@ -1,11 +1,21 @@
-import { Book, BookCreate, CategoryResponse } from "../types/types";
+import {
+  Book,
+  BookCreate,
+  CategoryResponse,
+  PaginatedBooks,
+} from "../types/types";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const api = {
   // Basic CRUD operations
-  async getAllBooks(): Promise<Book[]> {
-    const response = await fetch(`${API_URL}/books/`);
+  async getAllBooks(
+    page: number = 1,
+    page_size: number = 10
+  ): Promise<PaginatedBooks> {
+    const response = await fetch(
+      `${API_URL}/books/?page=${page}&page_size=${page_size}`
+    );
     if (!response.ok) throw new Error("Failed to fetch books");
     return response.json();
   },

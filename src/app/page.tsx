@@ -8,6 +8,7 @@ import { DeleteDialog } from "@/components/DeleteDialog";
 import Layout from "../components/Layout";
 import { useLibrary } from "@/hooks/useLibrary";
 import { categories } from "@/types/types";
+import PaginationControls from "@/components/Pagination";
 
 export default function Home() {
   const {
@@ -23,6 +24,8 @@ export default function Home() {
     isAddDialogOpen,
     isEditDialogOpen,
     isDeleteDialogOpen,
+    currentPage,
+    pageSize,
 
     // Actions
     setIsAddDialogOpen,
@@ -36,7 +39,11 @@ export default function Home() {
     handleCreateBook,
     handleUpdateBook,
     handleDeleteBook,
+    setPage,
   } = useLibrary();
+
+  const totalPages = Math.ceil(totalBooks / pageSize);
+
   if (error) {
     return <div className="text-center text-red-600 mt-8">{error}</div>;
   }
@@ -61,16 +68,25 @@ export default function Home() {
         {isLoading ? (
           <div className="text-center py-8">Loading...</div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {books.map((book) => (
-              <BookCard
-                key={book.id}
-                book={book}
-                onEdit={handleEditBook}
-                onDelete={handleDeleteBook}
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {books.map((book) => (
+                <BookCard
+                  key={book.id}
+                  book={book}
+                  onEdit={handleEditBook}
+                  onDelete={handleDeleteBook}
+                />
+              ))}
+            </div>
+            <div className="mt-8">
+              <PaginationControls
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={setPage}
               />
-            ))}
-          </div>
+            </div>
+          </>
         )}
       </main>
       <BookDialog

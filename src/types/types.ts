@@ -49,6 +49,8 @@ export interface BookState {
   isLoading: boolean;
   error: string | null;
   totalBooks: number;
+  currentPage: number;
+  pageSize: number;
   searchTerm: string;
   currentCategory: string;
   currentSort: {
@@ -61,6 +63,7 @@ export interface BookState {
   isDeleteDialogOpen: boolean;
 
   // Actions
+  setPage: (page: number) => void;
   setSearchTerm: (term: string) => void;
   setCurrentCategory: (category: string) => void;
   setSelectedBook: (book: Book | null) => void;

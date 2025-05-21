@@ -45,6 +45,8 @@ export const useLibrary = () => {
     isLoading: store.isLoading,
     error: store.error,
     totalBooks: store.totalBooks,
+    currentPage: store.currentPage,
+    pageSize: store.pageSize,
     searchTerm: store.searchTerm,
     currentCategory: store.currentCategory,
     currentSort: store.currentSort,
@@ -67,5 +69,6 @@ export const useLibrary = () => {
     handleDeleteBook,
     handleConfirmDelete: store.handleConfirmDelete,
     deleteBook: store.deleteBook,
+    setPage: store.setPage,
   };
 };

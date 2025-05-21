@@ -32,6 +32,8 @@ export const useBookStore = create<BookState>()((set, get) => ({
   isLoading: true,
   error: null,
   totalBooks: 0,
+  currentPage: 1,
+  pageSize: 10,
   searchTerm: "",
   currentCategory: "All",
   currentSort: { field: "title", desc: false },
@@ -51,8 +53,9 @@ export const useBookStore = create<BookState>()((set, get) => ({
   // Async actions
   loadBooks: async () => {
     try {
+      const state = get();
       set({ isLoading: true });
-      const data = await api.getAllBooks();
+      const data = await api.getAllBooks(state.currentPage, state.pageSize);
       set({
         books: data.books,
         totalBooks: data.total,
@@ -154,6 +157,11 @@ export const useBookStore = create<BookState>()((set, get) => ({
 
   searchBooks: (params) => {
     debouncedSearch(params, set);
+  },
+
+  setPage: (page: number) => {
+    set({ currentPage: page });
+    get().loadBooks();
   },
 
   // UI Actions

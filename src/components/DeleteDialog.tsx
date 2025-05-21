@@ -22,6 +22,11 @@ export function DeleteDialog({
   book,
   onConfirm,
 }: DeleteDialogProps) {
+  const handleDelete = async () => {
+    await onConfirm();
+    onOpenChange(false);
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
@@ -37,7 +42,7 @@ export function DeleteDialog({
           <Button variant="outline" onClick={() => onOpenChange(false)}>
             Cancel
           </Button>
-          <Button variant="destructive" onClick={onConfirm}>
+          <Button variant="destructive" onClick={handleDelete}>
             Delete
           </Button>
         </DialogFooter>

@@ -39,6 +39,7 @@ export default function Home() {
     handleCreateBook,
     handleUpdateBook,
     handleDeleteBook,
+    handleConfirmDelete,
     setPage,
   } = useLibrary();
 
@@ -76,7 +77,7 @@ export default function Home() {
                   key={book.id}
                   book={book}
                   onEdit={handleEditBook}
-                  onDelete={handleDeleteBook}
+                  onConfirmDelete={handleConfirmDelete}
                 />
               ))}
             </div>

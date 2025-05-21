@@ -13,19 +13,11 @@ import { Book } from "../types/types";
 interface BookCardProps {
   book: Book;
   onEdit: (book: Book) => void;
-  onDelete: (id: number) => Promise<void>;
+  onConfirmDelete: (id: number) => void;
 }
 
 export const BookCard: FC<BookCardProps> = memo(
-  ({ book, onEdit, onDelete }) => {
-    const handleDelete = async () => {
-      try {
-        await onDelete(book.id);
-      } catch (error) {
-        console.error("Error deleting book:", error);
-      }
-    };
-
+  ({ book, onEdit, onConfirmDelete }) => {
     return (
       <Card className="overflow-hidden hover:shadow-lg transition-shadow">
         <div
@@ -74,7 +66,7 @@ export const BookCard: FC<BookCardProps> = memo(
             variant="outline"
             size="sm"
             className="text-red-600 hover:text-red-700 border-red-200 hover:border-red-300"
-            onClick={handleDelete}
+            onClick={() => onConfirmDelete(book.id)}
           >
             <Trash2 className="h-4 w-4 mr-1" /> Delete
           </Button>

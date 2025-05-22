@@ -26,10 +26,7 @@ export const BookCard: FC<BookCardProps> = memo(
     };
 
     return (
-      <Card
-        className="overflow-hidden hover:shadow-lg transition-shadow pt-[0.4rem]"
-        onClick={handleCardClick}
-      >
+      <Card className="overflow-hidden hover:shadow-lg transition-shadow pt-[0.4rem]">
         <div
           className={`h-48 ${
             !book.cover_image ? "bg-purple-600" : ""
@@ -67,8 +64,16 @@ export const BookCard: FC<BookCardProps> = memo(
             {book.category}
           </Badge>
           <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-3">
-            {`${book.description.slice(0, 150)}...` ||
+            {`${book.description.slice(0, 50)}...` ||
               "No description available."}
+            <span>
+              <a
+                className="text-blue-600 hover:text-blue-800 visited:text-purple-600 active:text-blue-900 cursor-pointer transition-colors duration-200"
+                onClick={handleCardClick}
+              >
+                View more
+              </a>
+            </span>
           </p>
         </CardContent>
         <CardFooter className="flex justify-between pt-2 mt-0">

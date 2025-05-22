@@ -19,7 +19,7 @@ interface BookCardProps {
 export const BookCard: FC<BookCardProps> = memo(
   ({ book, onEdit, onConfirmDelete }) => {
     return (
-      <Card className="overflow-hidden hover:shadow-lg transition-shadow pt-[0.4rem] hover:scale-[1.01]">
+      <Card className="overflow-hidden hover:shadow-lg transition-shadow pt-[0.4rem]">
         <div
           className={`h-48 ${
             !book.cover_image ? "bg-purple-600" : ""
@@ -30,7 +30,7 @@ export const BookCard: FC<BookCardProps> = memo(
             <img
               src={book.cover_image}
               alt={`Cover of ${book.title}`}
-              className="w-full h-full object-cover m-[0.5rem] rounded-[10px]"
+              className="w-full h-full object-cover m-[0.5rem] rounded-[10px] hover:scale-110 transition-all duration-200 ease-in-out"
             />
           ) : null}
           <h3

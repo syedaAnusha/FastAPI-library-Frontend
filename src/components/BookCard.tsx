@@ -61,7 +61,7 @@ export const BookCard: FC<BookCardProps> = memo(
               "No description available."}
           </p>
         </CardContent>
-        <CardFooter className="flex justify-between pt-2">
+        <CardFooter className="flex justify-between pt-2 mt-0">
           <Button variant="outline" size="sm" onClick={() => onEdit(book)}>
             <Edit2 className="h-4 w-4 mr-1" /> Edit
           </Button>

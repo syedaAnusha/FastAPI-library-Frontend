@@ -20,12 +20,23 @@ export const metadata: Metadata = {
   icons: {
     icon: "/icons/quickshelf.png",
   },
-  description: "A modern library management system for managing books.",
-  keywords: ["library", "books", "management", "reading", "literature"],
+  description:
+    "QuickShelf is a modern library system to manage, search, and organize your book collection with ease.",
+  keywords: [
+    "library system",
+    "book management",
+    "online library",
+    "digital bookshelf",
+    "QuickShelf",
+    "book search",
+    "library software",
+    "reading tracker",
+  ],
   authors: [{ name: "Anusha Syeda" }],
   openGraph: {
     title: "QuickShelf",
-    description: "A modern library management system for managing books.",
+    description:
+      "QuickShelf is a modern library system to manage, search, and organize your book collection with ease.",
     type: "website",
     locale: "en_US",
     siteName: "QuickShelf",

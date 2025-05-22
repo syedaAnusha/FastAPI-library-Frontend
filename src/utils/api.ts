@@ -1,9 +1,4 @@
-import {
-  Book,
-  BookCreate,
-  CategoryResponse,
-  PaginatedBooks,
-} from "../types/types";
+import { Book, BookCreate, PaginatedBooks } from "../types/types";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -59,32 +54,27 @@ export const api = {
     });
     if (!response.ok) throw new Error("Failed to delete book");
   },
-
-  // New endpoints for sorting, filtering, and searching
-  async getSortedBooks(
-    sortBy: "year" | "author" | "title",
-    desc: boolean = false
+  // Flexible search, filter, and sort endpoint
+  async searchBooks(
+    params: {
+      title?: string;
+      category?: string;
+      sort_by?: "year" | "author" | "title";
+      desc?: boolean;
+    } = {}
   ): Promise<Book[]> {
-    const response = await fetch(
-      `${API_URL}/books/sort/${sortBy}?desc=${desc}`
-    );
-    if (!response.ok) throw new Error("Failed to fetch sorted books");
-    return response.json();
-  },
+    const searchParams = new URLSearchParams();
 
-  async getBooksByCategory(category: string): Promise<CategoryResponse> {
-    const response = await fetch(`${API_URL}/books/category/${category}`);
-    if (!response.ok) throw new Error("Failed to fetch books by category");
-    return response.json();
-  },
-  async searchBooks(params: { title?: string }): Promise<Book[]> {
-    if (!params.title) {
-      return [];
-    }
+    if (params.title) searchParams.append("title", params.title);
+    if (params.category) searchParams.append("category", params.category);
+    if (params.sort_by) searchParams.append("sort_by", params.sort_by);
+    if (params.desc !== undefined)
+      searchParams.append("desc", params.desc.toString());
+
     const response = await fetch(
-      `${API_URL}/books/search/${encodeURIComponent(params.title)}`
+      `${API_URL}/books/combined?${searchParams.toString()}`
     );
-    if (!response.ok) throw new Error("Failed to search books");
+    if (!response.ok) throw new Error("Failed to fetch books");
     return response.json();
   },
 };

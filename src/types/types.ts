@@ -35,8 +35,9 @@ export interface CategoryResponse {
 
 export interface SearchParams {
   title?: string;
-  author?: string;
-  year?: number;
+  category?: string;
+  sort_by?: "year" | "author" | "title";
+  desc?: boolean;
 }
 
 export interface PaginatedBooks {

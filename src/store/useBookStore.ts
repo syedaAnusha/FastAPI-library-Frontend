@@ -33,7 +33,7 @@ export const useBookStore = create<BookState>()((set, get) => ({
   error: null,
   totalBooks: 0,
   currentPage: 1,
-  pageSize: 10,
+  pageSize: 12,
   searchTerm: "",
   currentCategory: "All",
   currentSort: { field: "title", desc: false },
@@ -115,53 +115,24 @@ export const useBookStore = create<BookState>()((set, get) => ({
       set({ error: "Failed to update book" });
       throw e;
     }
-  },
-
-  sortBooks: async (sortBy, desc = false) => {
-    try {
-      set({ isLoading: true });
-      const sortedBooks = await api.getSortedBooks(sortBy, desc);
-      set({
-        books: sortedBooks,
-        totalBooks: sortedBooks.length,
-        error: null,
-        isLoading: false,
-        currentSort: { field: sortBy, desc },
-      });
-    } catch (e) {
-      console.error("Error sorting books:", e);
-      set({ error: "Failed to sort books", isLoading: false });
-    }
-  },
-  filterByCategory: async (category) => {
-    try {
-      set({ isLoading: true });
-      if (category === "All") {
-        get().loadBooks();
-      } else {
-        const response = await api.getBooksByCategory(category);
-        set({
-          books: response.books || [],
-          totalBooks: response.total || 0,
-          error: null,
-          isLoading: false,
-          currentCategory: category,
-          currentPage: 1, // Reset to first page when changing category
-        });
-      }
-    } catch (e) {
-      console.error("Error filtering books:", e);
-      set({ error: "Failed to filter books", isLoading: false });
-    }
-  },
-
-  searchBooks: (params) => {
-    debouncedSearch(params, set);
+  }, // Combined search, filter, and sort
+  searchBooks: (params: Partial<SearchParams> = {}) => {
+    const { searchTerm, currentCategory, currentSort } = get();
+    const searchParams = {
+      title: params.title ?? (searchTerm || undefined),
+      category:
+        params.category ??
+        (currentCategory !== "All" ? currentCategory : undefined),
+      sort_by: params.sort_by ?? currentSort.field,
+      desc: params.desc ?? currentSort.desc,
+    };
+    set({ isLoading: true });
+    debouncedSearch(searchParams, set);
   },
 
   setPage: (page: number) => {
     set({ currentPage: page });
-    get().loadBooks();
+    get().searchBooks({}); // Use empty object to use current state values
   },
 
   getBookById: async (id: number) => {
@@ -178,29 +149,22 @@ export const useBookStore = create<BookState>()((set, get) => ({
       set({ isLoading: false });
     }
   },
-
   // UI Actions
   handleSearch: (value) => {
-    const state = get();
-    state.setSearchTerm(value);
-    if (value) {
-      state.searchBooks({ title: value.trim() });
-    } else {
-      state.loadBooks();
-    }
+    set({ searchTerm: value });
+    get().searchBooks({ title: value || undefined });
   },
 
   handleCategoryChange: (category) => {
-    const state = get();
-    state.setCurrentCategory(category);
-    state.filterByCategory(category);
+    set({ currentCategory: category });
+    get().searchBooks({ category: category !== "All" ? category : undefined });
   },
 
   handleSort: (field) => {
-    const state = get();
-    const desc =
-      state.currentSort.field === field ? !state.currentSort.desc : false;
-    state.sortBooks(field, desc);
+    const { currentSort } = get();
+    const desc = field === currentSort.field ? !currentSort.desc : false;
+    set({ currentSort: { field, desc } });
+    get().searchBooks({ sort_by: field, desc });
   },
 
   handleAddBook: () => set({ isAddDialogOpen: true }),
@@ -210,12 +174,22 @@ export const useBookStore = create<BookState>()((set, get) => ({
       selectedBook: book,
       isEditDialogOpen: true,
     }),
-
   handleConfirmDelete: (id) => {
     const book = get().books.find((book) => book.id === id);
     set({
       selectedBook: book || null,
       isDeleteDialogOpen: true,
     });
+  },
+
+  sortBooks: async (
+    sortBy: "year" | "author" | "title",
+    desc: boolean = false
+  ) => {
+    get().searchBooks({ sort_by: sortBy, desc });
+  },
+
+  filterByCategory: async (category: string) => {
+    get().searchBooks({ category: category !== "All" ? category : undefined });
   },
 }));

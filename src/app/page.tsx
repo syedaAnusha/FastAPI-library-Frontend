@@ -9,6 +9,7 @@ import Layout from "../components/Layout";
 import { useLibrary } from "@/hooks/useLibrary";
 import { categories } from "@/types/types";
 import PaginationControls from "@/components/Pagination";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Home() {
   const {
@@ -66,7 +67,17 @@ export default function Home() {
           categories={categories}
         />
         {isLoading ? (
-          <div className="text-center py-8">Loading...</div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {[...Array(books.length)].map((_, index) => (
+              <div key={index} className="flex flex-col space-y-3">
+                <Skeleton className="h-[250px] w-full rounded-lg bg-gray-200" />
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-[80%] bg-gray-200" />
+                  <Skeleton className="h-4 w-[60%] bg-gray-200" />
+                </div>
+              </div>
+            ))}
+          </div>
         ) : books.length === 0 ? (
           <div className="text-center py-8 text-gray-500">No books found</div>
         ) : (

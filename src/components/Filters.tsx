@@ -1,4 +1,4 @@
-import { Filter, ChevronDown } from "lucide-react";
+import { Filter, ChevronDown, ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -13,7 +13,7 @@ interface LibraryFiltersProps {
   currentSort: { field: "title" | "author" | "year"; desc: boolean };
   totalBooks: number;
   onCategoryChange: (category: string) => void;
-  onSortChange: (field: "title" | "author" | "year") => void;
+  onSortChange: (field: "title" | "author" | "year", desc?: boolean) => void;
   categories: string[];
 }
 
@@ -62,21 +62,20 @@ export function Filters({
               </DropdownMenuItem>
             ))}
           </DropdownMenuContent>
-        </DropdownMenu>
-
+        </DropdownMenu>{" "}
+        {/* Sort Field Menu */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="gap-2">
               <ChevronDown className="h-4 w-4" />
-              Sort by: {currentSort.field} {currentSort.desc ? "↓" : "↑"}
+              Sort by: {currentSort.field}
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            {" "}
             <DropdownMenuItem
               onClick={() => {
                 startTransition(() => {
-                  onSortChange("title");
+                  onSortChange("title", currentSort.desc);
                 });
               }}
             >
@@ -86,7 +85,7 @@ export function Filters({
             <DropdownMenuItem
               onClick={() => {
                 startTransition(() => {
-                  onSortChange("author");
+                  onSortChange("author", currentSort.desc);
                 });
               }}
             >
@@ -96,7 +95,7 @@ export function Filters({
             <DropdownMenuItem
               onClick={() => {
                 startTransition(() => {
-                  onSortChange("year");
+                  onSortChange("year", currentSort.desc);
                 });
               }}
             >
@@ -105,6 +104,19 @@ export function Filters({
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
+        {/* Sort Direction Button */}
+        <Button
+          variant="outline"
+          className="gap-2"
+          onClick={() => {
+            startTransition(() => {
+              onSortChange(currentSort.field, !currentSort.desc);
+            });
+          }}
+        >
+          <ArrowUpDown className="h-4 w-4" />
+          {currentSort.desc ? "Descending" : "Ascending"}
+        </Button>
       </div>
 
       <div className="text-sm text-gray-500 dark:text-gray-400">

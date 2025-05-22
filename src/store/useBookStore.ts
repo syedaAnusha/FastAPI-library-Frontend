@@ -33,10 +33,10 @@ export const useBookStore = create<BookState>()((set, get) => ({
   error: null,
   totalBooks: 0,
   currentPage: 1,
-  pageSize: 12,
+  pageSize: 10,
   searchTerm: "",
   currentCategory: "All",
-  currentSort: { field: "title", desc: false },
+  currentSort: { field: "title", desc: true },
   selectedBook: null,
   isAddDialogOpen: false,
   isEditDialogOpen: false,
@@ -115,16 +115,31 @@ export const useBookStore = create<BookState>()((set, get) => ({
       set({ error: "Failed to update book" });
       throw e;
     }
-  }, // Combined search, filter, and sort
+  },
+
+  // Combined search, filter, and sort
   searchBooks: (params: Partial<SearchParams> = {}) => {
-    const { searchTerm, currentCategory, currentSort } = get();
+    const state = get();
+    const { searchTerm, currentCategory, currentSort } = state;
+
+    // Update the store's sort state if sort parameters are provided
+    if (params.sort_by || typeof params.desc !== "undefined") {
+      set({
+        currentSort: {
+          field: params.sort_by ?? currentSort.field,
+          desc:
+            typeof params.desc !== "undefined" ? params.desc : currentSort.desc,
+        },
+      });
+    }
+
     const searchParams = {
       title: params.title ?? (searchTerm || undefined),
       category:
         params.category ??
         (currentCategory !== "All" ? currentCategory : undefined),
       sort_by: params.sort_by ?? currentSort.field,
-      desc: params.desc ?? currentSort.desc,
+      desc: typeof params.desc !== "undefined" ? params.desc : currentSort.desc,
     };
     set({ isLoading: true });
     debouncedSearch(searchParams, set);
@@ -159,10 +174,11 @@ export const useBookStore = create<BookState>()((set, get) => ({
     set({ currentCategory: category });
     get().searchBooks({ category: category !== "All" ? category : undefined });
   },
-
   handleSort: (field) => {
     const { currentSort } = get();
-    const desc = field === currentSort.field ? !currentSort.desc : false;
+    // Preserve the sort direction when changing fields, only toggle if clicking the same field
+    const desc =
+      field === currentSort.field ? !currentSort.desc : currentSort.desc;
     set({ currentSort: { field, desc } });
     get().searchBooks({ sort_by: field, desc });
   },

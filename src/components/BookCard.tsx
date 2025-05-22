@@ -38,13 +38,15 @@ export const BookCard: FC<BookCardProps> = memo(
               book.cover_image ? "hidden" : ""
             }`}
           >
-            {book.title}
+            No Image Available
           </h3>
         </div>
         <CardHeader className="pb-2">
           <div className="flex justify-between items-start">
             <div>
-              <h4 className="font-semibold text-lg">{book.title}</h4>
+              <h4 className="font-semibold text-lg">
+                {`${book.title.slice(0, 20)}...`}
+              </h4>
               <p className="text-gray-500 dark:text-gray-400">{book.author}</p>
             </div>
             <Badge variant="outline">{book.published_year}</Badge>
@@ -55,7 +57,8 @@ export const BookCard: FC<BookCardProps> = memo(
             {book.category}
           </Badge>
           <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-3">
-            {book.description || "No description available."}
+            {`${book.description.slice(0, 150)}...` ||
+              "No description available."}
           </p>
         </CardContent>
         <CardFooter className="flex justify-between pt-2">

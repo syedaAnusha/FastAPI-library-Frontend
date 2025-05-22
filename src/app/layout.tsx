@@ -14,20 +14,21 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | Library Management",
-    default: "Library Management System",
+    template: "%s | QuickShelf",
+    default: "QuickShelf",
   },
-  description:
-    "A modern library management system for managing books and their metadata",
+  icons: {
+    icon: "/icons/quickshelf.png",
+  },
+  description: "A modern library management system for managing books.",
   keywords: ["library", "books", "management", "reading", "literature"],
-  authors: [{ name: "Library Team" }],
+  authors: [{ name: "Anusha Syeda" }],
   openGraph: {
-    title: "Library Management System",
-    description:
-      "A modern library management system for managing books and their metadata",
+    title: "QuickShelf",
+    description: "A modern library management system for managing books.",
     type: "website",
     locale: "en_US",
-    siteName: "Library Management",
+    siteName: "QuickShelf",
   },
 };
 

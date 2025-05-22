@@ -98,7 +98,7 @@ export default function BookDetails({ id }: Props) {
                   <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
                     About this book
                   </h3>
-                  <div className="prose prose-gray dark:prose-invert max-w-none">
+                  <div className="prose prose-gray dark:prose-invert max-h-[80vh] max-w-none overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                     <p className="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
                       {selectedBook.description}
                     </p>

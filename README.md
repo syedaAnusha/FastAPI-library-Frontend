@@ -9,34 +9,52 @@ A modern, responsive library management system built with Next.js and TypeScript
   - View book details including title, author, year, and description
   - Upload and display book cover images
   - Categorize books by genre
+  - Pagination support for large libraries
 - 🔍 Advanced Search & Filtering
-  - Search books by title
-  - Filter books by category
-  - Sort books by various fields (title, author, year)
+  - Real-time search by title with debounced input
+  - Filter books by category with dynamic filtering
+  - Sort books by multiple fields (title, author, year)
+  - Ascending and descending sort options
 - 💫 Modern UI/UX
   - Responsive design for all devices
   - Dark mode support
   - Animated transitions and feedback
   - Loading states and error handling
+  - Toast notifications for user feedback
+  - Modal dialogs for actions
 - 🛠 Technical Features
   - Built with Next.js 14+ and TypeScript
   - State management with Zustand
   - Form validation with Zod
   - Tailwind CSS for styling
   - Radix UI primitives for accessible components
+  - RESTful API integration
+  - Dynamic routing for book details
 
 ## Tech Stack
 
-- **Framework**: Next.js 14+
+- **Framework**: Next.js 14+ with App Router
 - **Language**: TypeScript
-- **Styling**: Tailwind CSS
-- **State Management**: Zustand
+- **Styling**:
+  - Tailwind CSS for utility-first styling
+  - shadcn/ui components for consistent design
+  - CSS Variables for theming
+- **State Management**:
+  - Zustand for global state
+  - React Query for server state
 - **Components**:
-  - Radix UI primitives
-  - Custom UI components
-- **Form Validation**: Zod
-- **Icons**: Lucide Icons
-- **Fonts**: Geist Sans & Geist Mono
+  - Radix UI primitives for accessibility
+  - Custom reusable UI components
+  - Client-side components with 'use client' directives
+- **Form Validation**:
+  - Zod for schema validation
+  - Custom form hooks for validation
+- **Icons**: Lucide Icons for consistent iconography
+- **Fonts**: Geist Sans & Geist Mono for modern typography
+- **Development**:
+  - ESLint for code quality
+  - Prettier for code formatting
+  - TypeScript strict mode enabled
 
 ## Prerequisites
 
@@ -87,16 +105,34 @@ pnpm dev
 
 ```
 src/
-├── app/               # Next.js app router files
-├── components/        # React components
-│   ├── ui/           # Reusable UI components
-│   └── ...           # Feature-specific components
-├── hooks/            # Custom React hooks
-├── lib/              # Utility functions
-├── schemas/          # Zod validation schemas
-├── store/            # Zustand store definitions
-├── types/            # TypeScript type definitions
-└── utils/            # Helper functions and API client
+├── app/                    # Next.js app router files
+│   ├── books/             # Book-related pages
+│   │   └── [id]/         # Dynamic book detail routes
+│   ├── layout.tsx        # Root layout with providers
+│   └── page.tsx          # Home page component
+├── components/            # React components
+│   ├── ui/               # Reusable UI components (shadcn/ui)
+│   │   ├── button.tsx   # Button component
+│   │   ├── card.tsx     # Card component
+│   │   ├── dialog.tsx   # Dialog component
+│   │   └── ...          # Other UI components
+│   ├── BookCard.tsx      # Book display component
+│   ├── BookDialog.tsx    # Book form dialog
+│   ├── Filters.tsx       # Search and filter controls
+│   └── ...               # Other feature components
+├── hooks/                # Custom React hooks
+│   └── useLibrary.ts    # Library management hook
+├── lib/                  # Utility functions
+│   └── utils.ts         # Helper utilities
+├── schemas/              # Zod validation schemas
+│   └── bookSchema.ts    # Book validation schema
+├── store/               # Zustand store definitions
+│   └── useBookStore.ts  # Book state management
+├── types/               # TypeScript type definitions
+│   └── types.ts        # Shared type definitions
+└── utils/               # Helper functions
+    ├── api.ts          # API client and endpoints
+    └── helper.ts       # Helper utilities
 ```
 
 ## Key Components
@@ -119,15 +155,16 @@ The application uses Zustand for state management with the following main featur
 
 ## API Integration
 
-The frontend communicates with a FastAPI backend through a RESTful API. The main endpoints include:
+The application integrates with a FastAPI backend service that provides the following endpoints:
 
-- GET /books/ - Fetch all books
-- POST /books/ - Create a new book
-- PUT /books/{id}/ - Update a book
-- DELETE /books/{id}/ - Delete a book
-- GET /books/search/{query} - Search books
-- GET /books/category/{category} - Filter books by category
-- GET /books/sort/{field} - Sort books by field
+- `GET /books/` - Get all books with pagination
+- `GET /books/{id}` - Get a specific book by ID
+- `POST /books/` - Create a new book
+- `PUT /books/{id}` - Update an existing book
+- `DELETE /books/{id}` - Delete a book
+- `GET /books/sort/{field}` - Get books sorted by field
+- `GET /books/category/{category}` - Get books by category
+- `GET /books/search/{query}` - Search books by title
 
 ## Contributing
 

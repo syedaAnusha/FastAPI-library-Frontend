@@ -21,7 +21,7 @@ export const api = {
   },
 
   async getBook(id: number): Promise<Book> {
-    const response = await fetch(`${API_URL}/books/${id}/`);
+    const response = await fetch(`${API_URL}/books/${id}`);
     if (!response.ok) throw new Error("Failed to fetch book");
     return response.json();
   },

@@ -9,6 +9,7 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { Book } from "../types/types";
+import { useRouter } from "next/navigation";
 
 interface BookCardProps {
   book: Book;
@@ -18,8 +19,17 @@ interface BookCardProps {
 
 export const BookCard: FC<BookCardProps> = memo(
   ({ book, onEdit, onConfirmDelete }) => {
+    const router = useRouter();
+
+    const handleCardClick = () => {
+      router.push(`/books/${book?.id}/view`);
+    };
+
     return (
-      <Card className="overflow-hidden hover:shadow-lg transition-shadow pt-[0.4rem]">
+      <Card
+        className="overflow-hidden hover:shadow-lg transition-shadow pt-[0.4rem]"
+        onClick={handleCardClick}
+      >
         <div
           className={`h-48 ${
             !book.cover_image ? "bg-purple-600" : ""
@@ -62,14 +72,24 @@ export const BookCard: FC<BookCardProps> = memo(
           </p>
         </CardContent>
         <CardFooter className="flex justify-between pt-2 mt-0">
-          <Button variant="outline" size="sm" onClick={() => onEdit(book)}>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={(e) => {
+              e.stopPropagation();
+              onEdit(book);
+            }}
+          >
             <Edit2 className="h-4 w-4 mr-1" /> Edit
           </Button>
           <Button
             variant="outline"
             size="sm"
             className="text-red-600 hover:text-red-700 border-red-200 hover:border-red-300"
-            onClick={() => onConfirmDelete(book.id)}
+            onClick={(e) => {
+              e.stopPropagation();
+              onConfirmDelete(book.id);
+            }}
           >
             <Trash2 className="h-4 w-4 mr-1" /> Delete
           </Button>

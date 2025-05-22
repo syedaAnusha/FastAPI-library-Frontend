@@ -164,6 +164,21 @@ export const useBookStore = create<BookState>()((set, get) => ({
     get().loadBooks();
   },
 
+  getBookById: async (id: number) => {
+    try {
+      set({ isLoading: true });
+      const book = await api.getBook(id);
+      set({ selectedBook: book, error: null });
+      return book;
+    } catch (e) {
+      console.error("Error fetching book:", e);
+      set({ error: "Failed to fetch book details", isLoading: false });
+      throw e;
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
   // UI Actions
   handleSearch: (value) => {
     const state = get();

@@ -72,6 +72,7 @@ export interface BookState {
   setIsDeleteDialogOpen: (isOpen: boolean) => void;
 
   // Async Actions
+  getBookById: (id: number) => Promise<Book>;
   loadBooks: () => Promise<void>;
   deleteBook: (id: number) => Promise<void>;
   createBook: (book: BookCreate) => Promise<void>;

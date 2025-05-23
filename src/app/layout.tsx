@@ -50,8 +50,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: "/icons/quickshelf.png",
-        width: 1200,
-        height: 628,
+        width: 800,
+        height: 600,
         alt: "ReadStack Library Management System",
       },
     ],

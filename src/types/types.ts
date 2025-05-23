@@ -38,6 +38,8 @@ export interface SearchParams {
   category?: string;
   sort_by?: "year" | "author" | "title";
   desc?: boolean;
+  page?: number;
+  page_size?: number;
 }
 
 export interface PaginatedBooks {

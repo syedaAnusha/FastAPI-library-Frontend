@@ -14,7 +14,7 @@ const debouncedSearch = debounce(
       const searchResults = await api.getAllBooks({
         ...params,
         page: state.currentPage,
-        page_size: state.pageSize
+        page_size: state.pageSize,
       });
       set({
         books: searchResults.books,
@@ -62,7 +62,7 @@ export const useBookStore = create<BookState>()((set, get) => ({
       set({ isLoading: true });
       const data = await api.getAllBooks({
         page: state.currentPage,
-        page_size: state.pageSize
+        page_size: state.pageSize,
       });
       set({
         books: data.books,
@@ -128,23 +128,27 @@ export const useBookStore = create<BookState>()((set, get) => ({
   // Combined search, filter, and sort
   searchBooks: (params: Partial<SearchParams> = {}) => {
     const state = get();
-    const { searchTerm, currentCategory, currentSort, currentPage, pageSize } = state;
+    const { searchTerm, currentCategory, currentSort, currentPage, pageSize } =
+      state;
 
     // Update the store's sort state if sort parameters are provided
     if (params.sort_by || typeof params.desc !== "undefined") {
       set({
         currentSort: {
           field: params.sort_by ?? currentSort.field,
-          desc: typeof params.desc !== "undefined" ? params.desc : currentSort.desc,
+          desc:
+            typeof params.desc !== "undefined" ? params.desc : currentSort.desc,
         },
       });
     }
 
     const searchParams = {
-      page: currentPage,
+      page: params.page ?? (params.title ? 1 : currentPage), // Use explicit page param or reset to 1 for new search
       page_size: pageSize,
       title: params.title ?? (searchTerm || undefined),
-      category: params.category ?? (currentCategory !== "All" ? currentCategory : undefined),
+      category:
+        params.category ??
+        (currentCategory !== "All" ? currentCategory : undefined),
       sort_by: params.sort_by ?? currentSort.field,
       desc: typeof params.desc !== "undefined" ? params.desc : currentSort.desc,
     };
@@ -174,8 +178,8 @@ export const useBookStore = create<BookState>()((set, get) => ({
   },
   // UI Actions
   handleSearch: (value) => {
-    set({ searchTerm: value });
-    get().searchBooks({ title: value || undefined });
+    set({ searchTerm: value, currentPage: 1 }); // Reset to page 1 when searching
+    get().searchBooks({ title: value || undefined, page: 1 }); // Explicitly set page 1 in the search params
   },
 
   handleCategoryChange: (category) => {

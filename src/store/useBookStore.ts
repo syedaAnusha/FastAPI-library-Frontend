@@ -6,14 +6,19 @@ import { api } from "../utils/api";
 const debouncedSearch = debounce(
   async (
     params: SearchParams,
+    state: BookState,
     set: (state: Partial<BookState>) => void
   ): Promise<void> => {
     try {
       set({ isLoading: true });
-      const searchResults = await api.searchBooks(params);
+      const searchResults = await api.getAllBooks({
+        ...params,
+        page: state.currentPage,
+        page_size: state.pageSize
+      });
       set({
-        books: searchResults,
-        totalBooks: searchResults.length,
+        books: searchResults.books,
+        totalBooks: searchResults.total,
         error: null,
         isLoading: false,
       });
@@ -55,7 +60,10 @@ export const useBookStore = create<BookState>()((set, get) => ({
     try {
       const state = get();
       set({ isLoading: true });
-      const data = await api.getAllBooks(state.currentPage, state.pageSize);
+      const data = await api.getAllBooks({
+        page: state.currentPage,
+        page_size: state.pageSize
+      });
       set({
         books: data.books,
         totalBooks: data.total,
@@ -120,29 +128,29 @@ export const useBookStore = create<BookState>()((set, get) => ({
   // Combined search, filter, and sort
   searchBooks: (params: Partial<SearchParams> = {}) => {
     const state = get();
-    const { searchTerm, currentCategory, currentSort } = state;
+    const { searchTerm, currentCategory, currentSort, currentPage, pageSize } = state;
 
     // Update the store's sort state if sort parameters are provided
     if (params.sort_by || typeof params.desc !== "undefined") {
       set({
         currentSort: {
           field: params.sort_by ?? currentSort.field,
-          desc:
-            typeof params.desc !== "undefined" ? params.desc : currentSort.desc,
+          desc: typeof params.desc !== "undefined" ? params.desc : currentSort.desc,
         },
       });
     }
 
     const searchParams = {
+      page: currentPage,
+      page_size: pageSize,
       title: params.title ?? (searchTerm || undefined),
-      category:
-        params.category ??
-        (currentCategory !== "All" ? currentCategory : undefined),
+      category: params.category ?? (currentCategory !== "All" ? currentCategory : undefined),
       sort_by: params.sort_by ?? currentSort.field,
       desc: typeof params.desc !== "undefined" ? params.desc : currentSort.desc,
     };
+
     set({ isLoading: true });
-    debouncedSearch(searchParams, set);
+    debouncedSearch(searchParams, state, set);
   },
 
   setPage: (page: number) => {

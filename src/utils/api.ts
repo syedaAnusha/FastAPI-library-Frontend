@@ -3,13 +3,30 @@ import { Book, BookCreate, PaginatedBooks } from "../types/types";
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const api = {
-  // Basic CRUD operations
   async getAllBooks(
-    page: number = 1,
-    page_size: number = 10
+    params: {
+      page?: number;
+      page_size?: number;
+      title?: string;
+      category?: string;
+      sort_by?: "year" | "author" | "title";
+      desc?: boolean;
+    } = {}
   ): Promise<PaginatedBooks> {
+    const searchParams = new URLSearchParams();
+
+    // Set default pagination values
+    searchParams.append("page", (params.page || 1).toString());
+    searchParams.append("page_size", (params.page_size || 10).toString());
+
+    if (params.title) searchParams.append("title", params.title);
+    if (params.category) searchParams.append("category", params.category);
+    if (params.sort_by) searchParams.append("sort_by", params.sort_by);
+    if (params.desc !== undefined)
+      searchParams.append("desc", params.desc.toString());
+
     const response = await fetch(
-      `${API_URL}/books/?page=${page}&page_size=${page_size}`
+      `${API_URL}/books/combined?${searchParams.toString()}`
     );
     if (!response.ok) throw new Error("Failed to fetch books");
     return response.json();
@@ -53,28 +70,5 @@ export const api = {
       },
     });
     if (!response.ok) throw new Error("Failed to delete book");
-  },
-  // Flexible search, filter, and sort endpoint
-  async searchBooks(
-    params: {
-      title?: string;
-      category?: string;
-      sort_by?: "year" | "author" | "title";
-      desc?: boolean;
-    } = {}
-  ): Promise<Book[]> {
-    const searchParams = new URLSearchParams();
-
-    if (params.title) searchParams.append("title", params.title);
-    if (params.category) searchParams.append("category", params.category);
-    if (params.sort_by) searchParams.append("sort_by", params.sort_by);
-    if (params.desc !== undefined)
-      searchParams.append("desc", params.desc.toString());
-
-    const response = await fetch(
-      `${API_URL}/books/combined?${searchParams.toString()}`
-    );
-    if (!response.ok) throw new Error("Failed to fetch books");
-    return response.json();
   },
 };

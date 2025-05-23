@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import { Search, Plus, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SearchInput } from "./SearchInput";

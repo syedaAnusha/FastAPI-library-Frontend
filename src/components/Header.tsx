@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { Search, Plus, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SearchInput } from "./SearchInput";
@@ -20,7 +21,7 @@ export function Header({
           <div className="flex items-center">
             <BookOpen className="h-8 w-8 text-purple-600 dark:text-purple-400 mr-2" />
             <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-              QuickShelf
+              ReadStack
             </h1>
           </div>
 

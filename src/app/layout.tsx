@@ -18,7 +18,14 @@ export const metadata: Metadata = {
     default: "ReadStack",
   },
   icons: {
-    icon: "/icons/quickshelf.png",
+    icon: [
+      {
+        url: "/icons/quickshelf.png",
+        type: "image/png",
+      },
+    ],
+    shortcut: "/icons/quickshelf.png",
+    apple: "/icons/quickshelf.png",
   },
   description:
     "ReadStack: A modern library management system for managing books.",
@@ -40,6 +47,21 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     siteName: "ReadStack",
+    images: [
+      {
+        url: "/icons/quickshelf.png",
+        width: 1200,
+        height: 628,
+        alt: "ReadStack Library Management System",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ReadStack",
+    description:
+      "ReadStack: A modern library management system for managing books.",
+    images: ["/icons/quickshelf.png"],
   },
 };
 

@@ -18,17 +18,26 @@ export const metadata: Metadata = {
     default: "ReadStack",
   },
   icons: {
-    icon: [
+    icon: "/icons/quickshelf.png",
+    shortcut: { url: "/icons/quickshelf.png" },
+    apple: { url: "/icons/quickshelf.png" },
+    other: [
       {
-        url: "/icons/quickshelf.png",
+        rel: "icon",
         type: "image/png",
+        sizes: "32x32",
+        url: "/icons/quickshelf.png",
+      },
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "16x16",
+        url: "/icons/quickshelf.png",
       },
     ],
-    shortcut: "/icons/quickshelf.png",
-    apple: "/icons/quickshelf.png",
   },
   description:
-    "ReadStack: A modern library management system for managing books.",
+    "ReadStack is a comprehensive digital library management system that helps you organize, track, and manage your book collection efficiently. Features include book categorization, search functionality, reading progress tracking, and detailed book information management.",
   keywords: [
     "library system",
     "book management",
@@ -43,7 +52,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "ReadStack",
     description:
-      "ReadStack: A modern library management system for managing books.",
+      "ReadStack is a comprehensive digital library management system that helps you organize, track, and manage your book collection efficiently. Features include book categorization, search functionality, reading progress tracking, and detailed book information management.",
     type: "website",
     locale: "en_US",
     siteName: "ReadStack",
@@ -60,7 +69,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "ReadStack",
     description:
-      "ReadStack: A modern library management system for managing books.",
+      "ReadStack is a comprehensive digital library management system that helps you organize, track, and manage your book collection efficiently. Features include book categorization, search functionality, reading progress tracking, and detailed book information management.",
     images: ["/icons/quickshelf.png"],
   },
 };

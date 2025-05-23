@@ -157,14 +157,18 @@ The application uses Zustand for state management with the following main featur
 
 The application integrates with a FastAPI backend service that provides the following endpoints:
 
-- `GET /books/` - Get all books with pagination
+- `GET /books/combined` - Combined endpoint for fetching, searching, filtering, and sorting books with pagination
+  - Query parameters:
+    - `page`: Page number (default: 1)
+    - `page_size`: Items per page (default: 10)
+    - `title`: Search by title
+    - `category`: Filter by category
+    - `sort_by`: Sort by field ("year", "author", "title")
+    - `desc`: Sort direction (true/false)
 - `GET /books/{id}` - Get a specific book by ID
 - `POST /books/` - Create a new book
 - `PUT /books/{id}` - Update an existing book
 - `DELETE /books/{id}` - Delete a book
-- `GET /books/sort/{field}` - Get books sorted by field
-- `GET /books/category/{category}` - Get books by category
-- `GET /books/search/{query}` - Search books by title
 
 ## Contributing
 
